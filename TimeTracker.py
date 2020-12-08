@@ -1,3 +1,5 @@
+import time
+
 switchOn = True
 dateArray = [3, 1970, 7, 25, 12, 6, 9]
 

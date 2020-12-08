@@ -1,7 +1,6 @@
 class Group:
-    def __init__(self, members=[], travelPace=0):
+    def __init__(self, members=[]):
         self.members = members
-        self.travelPace = travelPace
 
     def get_members(self):
         return self.members
@@ -12,27 +11,28 @@ class Group:
     def add_member(self, member):
         self.members.append(member)
     
-    def get_group_speed(self):
+    @property
+    def travelPace(self):
         speeds = []
 
         for member in self.members:
-            memberSpeed = convert_fpt_to_mph(member.speed)
+            memberSpeed = convert_fpt_to_mph(member.get_speed())
             speeds.append(memberSpeed)
     
         return min(speeds)
 
 
 class Adventurer:
-    def __init__(self, name="", strength=0, size=0, speed=0, mount=None,
-            passivePerception=0, hasMetavision=False, encumberment=0,
-            exhaustionLevel=0):
+    def __init__(self, name="", strength=0, size=0, speed=0, 
+                carryingCapacity = 0, mount=None, passivePerception=0, 
+                metavision=(0, 0), encumberment=1, exhaustionLevel=0):
         self.name = name
         self.strength = strength
         self.size = size
         self.speed = speed
         self.mount = mount
         self.passivePerception = passivePerception
-        self.hasMetavision = hasMetavision
+        self.metavision = metavision
         self.encumberment = encumberment
         self.exhaustionLevel = exhaustionLevel
 
@@ -49,25 +49,23 @@ class Adventurer:
         self.strength = strength
 
     def get_size(self):
-        size = ""
-
         if self.size == 1:
-            size = "Normal"
+            return(self.size, "Normal")
 
         elif self.size == 0.5:
-            size = "Small"
+            return(self.size, "Small")
 
         elif self.size == 0.25:
-            size = "Tiny"
+            return(self.size, "Tiny")
 
         elif self.size == 2:
-            size = "Large"
+            return(self.size, "Large")
 
         elif self.size == 4:
-            size = "Huge"
+            return(self.size, "Huge")
 
         elif self.size == 6:
-            size = "Gargantuan"
+            return(self.size, "Gargantuan")
 
         else:
             raise Exception("Incorrect values for size.\
@@ -75,7 +73,6 @@ class Adventurer:
                             0.25, 0.5, 1\
                             2, 4, 6")
 
-        return size
 
     def get_speed(self):
         if self.mount is None:
@@ -86,11 +83,18 @@ class Adventurer:
     def set_speed(self, speed):
         self.speed = speed
 
+    @property
+    def carryingCapacity(self):
+        return self.strength*self.size*15
+
     def get_mount(self):
         return self.mount
 
     def set_mount(self, mount):
         self.mount = mount
+
+    def delete_mount(self):
+        self.mount = None
     
     def get_passive_perception(self):
         return self.passivePerception
@@ -98,11 +102,15 @@ class Adventurer:
     def set_passive_perception(self, passivePerception):
         self.passivePerception = passivePerception
 
-    def get_has_metavision(self):
-        return self.hasMetavision
+    def get_metavision(self):
+        if self.metavision[0] == 0:
+            return("No metavision")
 
-    def set_has_metavision(self, metavisionValue):
-        self.hasMetavision = metavisionValue
+        elif self.metavision[0] == 1:
+            return("Darkvision", self.metavision[1], "ft")
+
+    def set_metavision(self, metavisionTuple):
+        self.metavision = metavisionTuple
 
     def get_encumberment(self):
         return self.encumberment
@@ -111,11 +119,11 @@ class Adventurer:
         self.encumberment = encumbermentValue
 
 class Mount:
-    def __init__(self):
-        self.name = ""
-        self.strength = 0
-        self.size = 0
-        self.speed = 0
+    def __init__(self, name="", strength=0, size=0, speed=0):
+        self.name = name
+        self.strength = strength
+        self.size = size
+        self.speed = speed
 
     def get_name(self):
         return self.name
@@ -129,33 +137,34 @@ class Mount:
     def set_strength(self, strength):
         self.strength = strength
 
+    @property
+    def carryingCapacity(self):
+        return self.strength*self.size*15
+
     def get_size(self):
-        size = ""
-        if self.size == 0.25:
-            size = "Tiny"
+        if self.size == 1:
+            return(self.size, "Normal")
 
         elif self.size == 0.5:
-            size = "Small"
+            return(self.size, "Small")
 
-        elif self.size == 1:
-            size = "Normal"
+        elif self.size == 0.25:
+            return(self.size, "Tiny")
 
         elif self.size == 2:
-            size = "Large"
+            return(self.size, "Large")
 
         elif self.size == 4:
-            size = "Huge"
+            return(self.size, "Huge")
 
         elif self.size == 6:
-            size = "Gargantuan"
+            return(self.size, "Gargantuan")
 
         else:
             raise Exception("Incorrect values for size.\
                             Accepted values are :\
                             0.25, 0.5, 1\
                             2, 4, 6")
-
-        return size
 
     def get_speed(self):
         return self.speed()
@@ -166,11 +175,3 @@ class Mount:
 
 def convert_fpt_to_mph(fptSpeed):
     return fptSpeed/10
-
-
-def main():
-    Benelios = Adventurer(name="Benelios", size = 1)
-    print(Benelios.get_speed())
-
-if __name__ == '__main__':
-    main()
