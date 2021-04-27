@@ -1,60 +1,131 @@
 import warnings
 
-def addTime(time_adds, dateArray):
-    i = 1
+def date(self, parameter_list):
+    """
+    docstring
+    """
+    def __init__(self, era=1, year=0, month=1, day=1, hour=1,
+                    minute=0, second=0, add_time_queue=[]):
+        self.era = era
+        self.year = year
+        self.month = month
+        self.day = day
+        self.hour = hour
+        self.minute = minute
+        self.second = second
+        self.add_time_queue = add_time_queue
 
-    while time_adds != []:
-        if type(time_adds[0]) == tuple:
-            print("Turn", i, "start :", dateArray)
+    def get_era(self):
+        return self.era
 
-            if type(time_adds[0][0]) == int:
-                if type(time_adds[0][1]) == int:
-                    dateArray[time_adds[0][0]] = \
-                    dateArray[time_adds[0][0]] + time_adds[0][1]
+    def set_era(self, era):
+        self.era = era
+        
+    def del_era(self):
+        del self.era
 
-                    if dateArray[6] >= 60:
-                        dateArray[5] += dateArray[6] // 60
-                        dateArray[6] = dateArray[6] % 60
+    def get_year(self):
+        return self.year
 
-                    if dateArray[5] >= 60:
-                        dateArray[4] += dateArray[5] // 60
-                        dateArray[5] = dateArray[5] % 60
+    def set_year(self, year):
+        self.year = year
 
-                    if dateArray[4] >= 24:
-                        dateArray[3] += dateArray[4] // 24
-                        dateArray[4] = dateArray[4] % 24
+    def del_year(self):
+        del self.year
 
-                    if dateArray[3] > 28:
-                        dateArray[2] += dateArray[4] // 28
-                        dateArray[3] = dateArray[3] % 28
+    def get_month(self):
+        return self.month
 
-                    if dateArray[2] > 12:
-                        dateArray[1] += dateArray[2] // 12
-                        dateArray[2] = dateArray[2] % 12
+    def set_month(self, month):
+        self.month = month
 
+    def del_month(self):
+        del self.month
+
+    def get_day(self):
+        return self.day
+
+    def set_day(self, day):
+        self.day = day
+
+    def del_day(self):
+        del self.day
+
+    def get_hour(self):
+        return self.hour
+
+    def set_hour(self, hour):
+        self.hour = hour
+
+    def del_hour(self):
+        del self.hour
+
+    def get_minute(self):
+        return self.minute
+
+    def set_minute(self, minute):
+        self.minute = minute
+
+    def del_minute(self):
+        del self.minute
+
+    def get_second(self):
+        return self.second
+
+    def set_second(self, second):
+        self.second = second
+
+    def del_second(self):
+        del self.second
+
+    def release_queue(self, dateArray):
+        while self.add_time_queue != []:
+            if type(self.add_time_queue[0]) == tuple:
+                if type(self.add_time_queue[0][0]) == int:
+                    if type(self.add_time_queue[0][1]) == int:
+                        dateArray[self.add_time_queue[0][0]] = \
+                        dateArray[self.add_time_queue[0][0]] \
+                        + self.add_time_queue[0][1]
+
+                        if self.second >= 60:
+                            self.minute += self.second // 60
+                            self.second = self.second % 60
+
+                        if self.minute >= 60:
+                            self.hour += self.minute // 60
+                            self.minute = self.minute % 60
+
+                        if self.hour >= 24:
+                            self.day += self.hour // 24
+                            self.hour = self.hour % 24
+
+                        if self.day > 28:
+                            self.month += self.hour // 28
+                            self.day = self.day % 28
+
+                        if self.month > 12:
+                            self.year += self.month // 12
+                            self.month = self.month % 12
+
+                    else:
+                        pass
+                        warnings.warn("Second value in tuple not int, skipped")
                 else:
                     pass
-                    warnings.warn("Second value in tuple not int, skipped")
+                    warnings.warn("First value in tuple not int, skipped")
             else:
                 pass
-                warnings.warn("First value in tuple not int, skipped")
-        else:
-            pass
-            warnings.warn("Non tuple element given, skipped")
+                warnings.warn("Non tuple element given, skipped")
 
-        del time_adds[0]
-        print("Turn", i, "end :", dateArray, "\n")
-        i += 1
+            del self.add_time_queue[0]
+
+    def displayDate(self):
+        print(self.era, "-", self.year, "/", self.month, "/", \
+                self.day, " ", self.hour, ":", f'{self.minute:02}',\
+                ":", f'{self.second:02}', sep="")
 
 def main():
-    dateArray = [3, 1970, 7, 25, 12, 6, 9]
-    
-    addTimeQueue = []
-    addTime(addTimeQueue, dateArray)
-
-    print(dateArray[0], "-", dateArray[1], "/", dateArray[2], "/", \
-        dateArray[3], " ", dateArray[4], ":", f'{dateArray[5]:02}',\
-        ":", f'{dateArray[6]:02}', sep="")
+    return None
 
 if __name__ == "__main__":
     main()

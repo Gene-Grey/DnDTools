@@ -3,29 +3,39 @@ PyJourneyClasses.py
 Sets the classses included into the PyJourney code
 """
 
+"""
+If variable insertion is closed, 
+so only reduced to the get-set-del,
+data input check should go on the get
+"""
+
 class Group:
     def __init__(self, members=[]):
         self.members = members
 
-    def get_members(self):
-        return self.members
+    @property
+    def members(self):
+        return self._members
 
+    @members.setter
     def set_members(self, members):
-        self.members = members
+        self._members = members
 
+    
     def add_member(self, member):
-        self.members.append(member)
+        self._members.append(member)
 
+    @members.deleter
     def delete_member(self, member_pos):
-        del self.members[member_pos]
+        del self._members[member_pos]
     
     @property
-    def travelPace(self):
+    def travel_pace(self):
         speeds = []
 
         for member in self.members:
-            memberSpeed = convert_fpt_to_mph(member.get_speed())
-            speeds.append(memberSpeed)
+            member_speed = convert_fpt_to_mph(member.get_speed())
+            speeds.append(member_speed)
     
         return min(speeds)
 
@@ -134,7 +144,7 @@ class Mount:
         self.name = name
 
     def delete_name(self):
-        self.name = ""
+        self.name = None
 
     def get_strength(self):
         return self.strength
