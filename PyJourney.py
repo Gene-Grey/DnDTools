@@ -2,8 +2,9 @@
 Automatically splits DnD journeys from speeds into hourly paces
 Automatically generates random events 
 """
-import PyJourneyClasses as pjc
-import TimeTracker as ttc
+import PyJourneyClasses as c
+import TimeTracker as t
+import PyJournetInterface as i
 
 def main():
     return None

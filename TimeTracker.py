@@ -4,8 +4,8 @@ def date(self, parameter_list):
     """
     docstring
     """
-    def __init__(self, era=1, year=0, month=1, day=1, hour=1,
-                    minute=0, second=0, add_time_queue=[]):
+    def __init__(self, era=-1, year=-1, month=-1, day=-1, hour=-1,
+                    minute=-1, second=-1, add_time_queue=[]):
         self.era = era
         self.year = year
         self.month = month
@@ -22,7 +22,7 @@ def date(self, parameter_list):
         self.era = era
         
     def del_era(self):
-        del self.era
+        self.era = None
 
     def get_year(self):
         return self.year
@@ -31,7 +31,7 @@ def date(self, parameter_list):
         self.year = year
 
     def del_year(self):
-        del self.year
+        self.year = None
 
     def get_month(self):
         return self.month
@@ -40,7 +40,7 @@ def date(self, parameter_list):
         self.month = month
 
     def del_month(self):
-        del self.month
+        self.month = None
 
     def get_day(self):
         return self.day
@@ -49,7 +49,7 @@ def date(self, parameter_list):
         self.day = day
 
     def del_day(self):
-        del self.day
+        self.day = None
 
     def get_hour(self):
         return self.hour
@@ -58,7 +58,7 @@ def date(self, parameter_list):
         self.hour = hour
 
     def del_hour(self):
-        del self.hour
+        self.hour = None
 
     def get_minute(self):
         return self.minute
@@ -67,7 +67,7 @@ def date(self, parameter_list):
         self.minute = minute
 
     def del_minute(self):
-        del self.minute
+        self.minute = None
 
     def get_second(self):
         return self.second
@@ -76,7 +76,7 @@ def date(self, parameter_list):
         self.second = second
 
     def del_second(self):
-        del self.second
+        self.second = None
 
     def release_queue(self, dateArray):
         while self.add_time_queue != []:
